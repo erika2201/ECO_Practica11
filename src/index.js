@@ -39,9 +39,9 @@ function currentList(info){
     //Me da el arreglo de las llaves de un objeto
     Object.keys(info).forEach((k,index)=>{
         console.log(k, index);
-        text += "ID:" +info[k].id1+ "   Nombre: " +info[k].nombre + "\n";
+        text += info[k].text + "</br>";
     });
-         alert(text);
+         postList.innerHTML = text;
 }
 
 
@@ -50,11 +50,9 @@ const nombre = document.getElementById("nombre");
 const text = document.getElementById("text");
 const publicBtn = document.getElementById("publicBtn");
 
+const postList = document.getElementById("postList");
 const answer = document.getElementById("answer");
 const answerBtn = document.getElementById("answerBtn");
-
-const answer2 = document.getElementById("answer2");
-const answerBtn2 = document.getElementById("answerBtn2");
 
 
 //Metodo creación del usuario como un objeto
@@ -73,6 +71,7 @@ publicBtn.addEventListener('click', eventPost);
 //answerBtn.addEventListener('click',eventAnswer);
 //answerBtn2.addEventListener('click', eventAnswer2);
 //voteListBtn.addEventListener('click', verVotaciones);
+getPost();
 
 
 
