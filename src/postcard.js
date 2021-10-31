@@ -1,6 +1,6 @@
 //Es como una clase que representa una tarjeta
 //Genera el HTML necesario para visulizar mis 
-
+import { getDatabase, ref, push } from 'firebase/database';
 
 export class postCard {
 
@@ -18,26 +18,54 @@ export class postCard {
         message.className = "post-message"
         message.innerHTML = this.post.text;
 
-        //Input para responder
-        let answer = document.createElement("input");
-        answer.className = "answer-input";
-        answer.placeholder = "Escribe una respuesta";
-
         //@ del usuario que hizo la publicación
         let username = document.createElement("p");
         username.className = "post-username";
         username.innerHTML = "@" + this.post.nombre;
+
+        //Input para responder
+        let answer = document.createElement("input");
+        answer.className = "answer-input";
+        answer.placeholder = "Escribe una respuesta";
 
         //Boton para responder
         let answerBtn = document.createElement("button");
         answerBtn.className = "answer-button";
         answerBtn.innerHTML = "Responder";
 
+        //Donde se recibe la respuesta
+        let answers = document.createElement("div");
+        answers.className = "answers-card"
+
+        //Lo que sucede al presioanr el botón
+        answerBtn.addEventListener("click", (e,ev)=>{
+            alert("Vamos a responder");
+            //Obtener base de datos
+            const db = getDatabase();
+            const newPostRef = push(ref(db, 'posts/'+this.post.id+ '/comments'));
+            push(newPostRef, answer.value);
+            addAnswer(this.post.comments);
+        });
+
+
+        function addAnswer(info){
+            Object.keys(info).forEach((k, index)=>{
+                let answerCard = document.createElement("div");
+                answerCard.className = "answer-card";
+                let answer = document.createElement("p");
+                answer.className = "answer-text";
+                answer.innerHTML = info[k];
+                answerCard.appendChild(answer);
+                answers.appendChild(answerCard);
+            });
+        }
        
         card.appendChild(message);
         card.appendChild(username);
         card.appendChild(answer);
         card.appendChild(answerBtn);
+        card.appendChild(answers);
+        addAnswer(this.post.comments);
         return card;
     }
 }
