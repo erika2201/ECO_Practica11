@@ -23,6 +23,10 @@ export class postCard {
         username.className = "post-username";
         username.innerHTML = "@" + this.post.nombre;
 
+        //Donde se recibe la respuesta
+        let answers = document.createElement("div");
+        answers.className = "answers-card"
+
         //Input para responder
         let answer = document.createElement("input");
         answer.className = "answer-input";
@@ -33,17 +37,13 @@ export class postCard {
         answerBtn.className = "answer-button";
         answerBtn.innerHTML = "Responder";
 
-        //Donde se recibe la respuesta
-        let answers = document.createElement("div");
-        answers.className = "answers-card"
-
         //Lo que sucede al presioanr el botón
         answerBtn.addEventListener("click", (e,ev)=>{
-            alert("Vamos a responder");
+            //alert("Vamos a responder");
             //Obtener base de datos
             const db = getDatabase();
-            const newPostRef = push(ref(db, 'posts/'+this.post.id+ '/comments'));
-            push(newPostRef, answer.value);
+            const postRef = ref(db, 'posts/'+this.post.id+ '/comments');
+            push(postRef, answer.value);
             addAnswer(this.post.comments);
         });
 
@@ -64,8 +64,8 @@ export class postCard {
         card.appendChild(username);
         card.appendChild(answer);
         card.appendChild(answerBtn);
-        card.appendChild(answers);
         addAnswer(this.post.comments);
+        card.appendChild(answers);
         return card;
     }
 }

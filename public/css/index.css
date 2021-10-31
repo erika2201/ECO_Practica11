@@ -68,3 +68,12 @@
     background-color:cornflowerblue;
     border-color: cornflowerblue;
 }
+
+.answer-card{
+    font-family: Helvetica;
+    font-size: x-small;
+}
+
+.answer-text{
+    margin: 5px;
+}
